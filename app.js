@@ -48,15 +48,18 @@ function element(value) {
 
 
     })
-    complete(newDiv)
+    clearComplete(newDiv)
 }
 
-function complete(value) {
-    let complete = document.querySelector(".complete");
-    complete.addEventListener("click", function() {
+function clearComplete(value) {
+    let clearComplete = document.querySelector(".clear-complete");
+    clearComplete.addEventListener("click", function() {
         for (let i = 0; i < myList.length; i++) {
-            myList.splice(myList[i], myList[i].isActive = true)
-            console.log(myList);
+            value.classList.add("none")
+            if (myList[i].isActive === false) {
+                myList.splice(myList, myList.length)
+            }
+            quaility.innerText = `${myList.length}items`
         }
     })
 }
