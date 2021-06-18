@@ -1,3 +1,4 @@
+
 let form = document.querySelector("#form");
 let btn = document.querySelector(".btn");
 let list = document.querySelector(".list");
@@ -6,62 +7,56 @@ let quaility = document.querySelector(".quaility");
 
 let myList = [];
 
-btn.addEventListener("click", function () {
-    let valueUser = form.todo.value;
-    let myObj = {
+form.addEventListener("submit", function(e) {
 
-        title: valueUser,
+    e.preventDefault();
+    let valueInput = form.todo.value;
+    console.log(valueInput);
+    element(valueInput)
+    quaility.innerText = `${myList.length} items`
+})
+
+function element(value) {
+    let myObj = {
+        title: value,
         isActive: true
     }
-    if (valueUser != "") {
-        myList.push(myObj)
-
-    }
-    let newDiv = document.createElement("div");
-    newDiv.innerText = valueUser;
+    myList.push(myObj)
+    var newDiv = document.createElement("div");
     newDiv.setAttribute("class", "element");
-    let subDiv = document.createElement("div");
-    subDiv.setAttribute("class", "btn-element");
-    subDiv.innerHTML = '<i class="far fa-check-circle"></i>';
-    newDiv.appendChild(subDiv)
-    list.appendChild(newDiv)
+    let btn_elements = document.createElement("div");
+    btn_elements.innerHTML = '<i class="far fa-check-circle"></i>';
+    btn_elements.setAttribute("class", "btn-element");
 
+    newDiv.innerText = value;
+    newDiv.appendChild(btn_elements);
+    list.appendChild(newDiv);
+    btn_elements.addEventListener("click", function() {
+        let valueElement = [];
+        valueElement.push(myObj);
+        valueElement[0].isActive = false;
 
+        for (let i = 0; i < valueElement.length; i++) {
+            if (valueElement[0].isActive === false) {
+                newDiv.style.opacity = "0.5";
+                btn_elements.style.opacity = "0.5";
 
-    quaility.innerText = `${myList.length}  items`;
-
-    let elements = document.querySelectorAll(".element");
-    let arrElement = Array.from(elements);
-    for (let i = 0; i < arrElement.length; i++) {
-        for (let j = 0; j < myList.length; j++) {
-            let btn_elements = arrElement[i].querySelector(".btn-element");
-            btn_elements.addEventListener("click", function () {
-                if (myList[j].title === form.todo.value) {
-                    myList[j].isActive = false;
-                    subDiv.style.opacity = "0.5";
-                    newDiv.style.opacity = "0.5";
-                    console.log(myList[j]);
-                }
-
-            })
-
-        }
-    }
-
-    let allList = document.querySelector(".allList");
-    allList.addEventListener("click", function () {
-        allList.setAttribute("class", "allList on")
-
-    })
-    let active = document.querySelector(".active");
-    active.addEventListener("click", function () {
-        for (let i = 0; i < myList.length; i++) {
-            if (myList[i].isActive === false) {
-                myList.splice(myList[i], myList[i].isActive === false);
-                if(newDiv.getAttribute === "false") {
-                    list.remove(newDiv)
-                }
+                // console.log(valueElement[0]);
             }
         }
+
+
+
     })
-})
+    complete(newDiv)
+}
+
+function complete(value) {
+    let complete = document.querySelector(".complete");
+    complete.addEventListener("click", function() {
+        for (let i = 0; i < myList.length; i++) {
+            myList.splice(myList[i], myList[i].isActive = true)
+            console.log(myList);
+        }
+    })
+}
